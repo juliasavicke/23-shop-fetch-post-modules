@@ -12,12 +12,25 @@ function getData(from) {
     .catch((err) => console.warn("klaida getData", err));
 }
 
-// konkreti funkcija gauti produktams
+// get products from local json
 function getProducts() {
   return getData(`${BASE_URL_DEVELOPMENT}`).then((data) => data.products);
 }
+// get single product from url
 function getSingleProduct(id) {
   return getData(`${BASE_URL}/products/${id}`).then((item) => item);
+}
+// get products categories in array
+function getProdCategories() {
+  return getData(`${BASE_URL}/products/categories`).then(
+    (categoriesArr) => categoriesArr
+  );
+}
+// get products from selected category
+function getProductsInCategory(category) {
+  return getData(`${BASE_URL}/products/category/${category}`).then(
+    (products) => products
+  );
 }
 
 function makeOneSingleItem(itemObj) {

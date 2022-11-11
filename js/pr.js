@@ -9,13 +9,11 @@ const productId = urlParams.get("prId");
 console.log("productId ===", productId);
 
 // parsiusti ta produkta
+// sugeneruoti jo html arba supildyti html
+
 getSingleProduct(productId).then((productObj) => {
-  console.log("productObj ===", productObj);
   titleEl.textContent = productObj.title;
   productEl.innerHTML = "";
   const htmlProductEl = makeOneSingleItem(productObj);
-  console.log("htmlProductEl ===", htmlProductEl);
   productEl.append(htmlProductEl);
-  //renderHTML();
 });
-// sugeneruoti jo html arba supildyti html

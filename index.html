@@ -8,6 +8,8 @@
 
     <!-- itraukiu javascript -->
     <script src="./js/fn.js" defer></script>
+    <script src="./js/post.js" defer></script>
+    <script src="./js/Shop.js" defer></script>
     <script src="./js/main.js" defer></script>
 
     <title>Buy buy buy</title>
@@ -16,6 +18,38 @@
     <div class="container">
       <h1>E Shop</h1>
 
+      <!-- Forma produkto pridejimui -->
+      <fieldset>
+        <form class="flex flex-col max-w-300">
+          <input type="text" id="title" placeholder="Title" value="" />
+          <input type="number" id="price" placeholder="price" value="" />
+          <input type="text" id="thumbnail" placeholder="Image Url" value="" />
+          <textarea
+            name="description"
+            id="description"
+            placeholder="description"
+          >
+kazka</textarea
+          >
+          <div>
+            <label for="category">Kategorija</label>
+            <select name="category" id="category">
+              <option selected disabled>Pasirinkite kategorija</option>
+            </select>
+          </div>
+          <button type="submit" class="">Create</button>
+        </form>
+      </fieldset>
+
+      <!-- Kategoriju filtras -->
+      <fieldset>
+        <legend>Filters</legend>
+        <select id="filter-category">
+          <option selected disabled>Rodyti tik</option>
+        </select>
+      </fieldset>
+
+      <!-- Produktu atvaizdavimas -->
       <div id="products" class="products">
         <div class="shop-item card">
           <img src="" alt="preke" />

@@ -1,54 +1,69 @@
 "use strict";
 console.log("main.js");
 
-class Shop {
-  // html element targets
-  el = {};
-  items = [];
-
-  constructor() {
-    this.initTargets();
-    this.getItems();
-  }
-
-  initTargets() {
-    this.el.list = document.getElementById("products");
-  }
-
-  getItems() {
-    getProducts().then((products) => {
-      this.items = products;
-      this.renderList();
-      // console.log(JSON.stringify(products[0], null, 2));
-    });
-  }
-  makeOneItem(itemObj) {
-    /* 
-    <div class="shop-item card">
-    </div>
-    */
-    const divEl = document.createElement("div");
-    divEl.className = "shop-item card";
-    divEl.innerHTML = `
-      <img src="${itemObj.thumbnail}" alt="preke">
-        <h3>${itemObj.title}</h3>
-        <p class="price">${itemObj.price} eur</p>
-        <p>Category: ${itemObj.category} (${itemObj.id})</p>
-        <div class="control">
-          <button>Add to cart</button>
-          <a href="product.html?prId=${itemObj.id}">more info ></a>
-        </div>
-    `;
-    return divEl;
-  }
-
-  renderList() {
-    this.el.list.innerHTML = "";
-    this.items
-      .map((iObj) => this.makeOneItem(iObj))
-      .forEach((htmlEl) => this.el.list.append(htmlEl));
-  }
-} //class end
-
 const app = new Shop();
 console.log("app ===", app);
+
+class MyForm {
+  formEl = document.forms[0];
+  filterEl = document.getElementById("filter-category");
+  categoriesArr = [];
+  constructor() {
+    this.initListeners();
+    this.makeAndAddCategoriesOptions(this.categoriesArr);
+    this.filterEl.addEventListener("change", () => {
+      // get products in selected category
+      getProductsInCategory(this.filterEl.value).then((products) => {
+        app.items = products.products;
+        app.renderList();
+      });
+    });
+  }
+
+  initListeners() {
+    this.formEl.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      // surinkti visus inputus i javascriptini objekta
+      //   this.el.title = this.formEl.elements.title.value.trim();
+      //   this.el.price = this.formEl.elements.price.value.trim();
+      //   this.el.category = this.formEl.elements.category.value.trim();
+      //   this.el.thumbnail = this.formEl.elements.thumbnail.value.trim();
+      // DESTRUKTURIZACIJA
+
+      const { title, price, thumbnail, description, category } =
+        this.formEl.elements;
+      const newProductObj = {
+        title: title.value.trim(),
+        price: price.value.trim(),
+        thumbnail: thumbnail.value.trim(),
+        description: description.value.trim(),
+        category: category.value.trim(),
+      };
+      //isspausdinti objekta
+
+      console.log("newProductObj ===", newProductObj);
+      // issiusti objekta
+
+      const createdPostFromServer = await sendPost(newProductObj);
+      if (!!createdPostFromServer) {
+        this.formEl.parentElement.style.display = "none";
+        app.addNewProductToList(createdPostFromServer);
+      }
+    });
+  }
+
+  async makeAndAddCategoriesOptions() {
+    await getProdCategories().then((categories) => {
+      this.categoriesArr = categories;
+      this.categoriesArr.forEach((cat) => {
+        // Add categories to form select options
+        this.formEl.elements.category.innerHTML += `<option>${cat}</option>`;
+        // Add categories to filter select options
+        this.filterEl.innerHTML += `<option>${cat}</option>`;
+      });
+    });
+  }
+}
+
+const form1 = new MyForm();
+console.log("form1 ===", form1);
