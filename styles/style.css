@@ -1,2 +1,19 @@
 @import url("https://necolas.github.io/normalize.css/8.0.1/normalize.css");
 @import url("reset.css");
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.shop-item img {
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.product .shop-item img {
+  height: initial;
+  width: 100%;
+}
