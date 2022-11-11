@@ -11,9 +11,10 @@ class MyForm {
   constructor() {
     this.initListeners();
     this.makeAndAddCategoriesOptions(this.categoriesArr);
-    this.filterEl.addEventListener("change", () => {
+    this.filterEl.addEventListener("change", (event) => {
       // get products in selected category
-      getProductsInCategory(this.filterEl.value).then((products) => {
+      // event.target !!!
+      getProductsInCategory(event.target.value).then((products) => {
         app.items = products.products;
         app.renderList();
       });
